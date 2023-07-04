@@ -11,6 +11,17 @@ class Tree{
         this.root = this.buildTree(array);
     }
 
+    smallestNode(node) {
+        //loop through the left subtree until the next left sub node is null
+        //and update node to the left child in each iteration
+        //and return updated node with smalles value
+        while(node.left !== null) {
+            node = node.left;
+        }
+
+        return node;
+    }
+
     sortAndRemove(array) {
         //spread array elements in a new set
         //then spread the unique elements back into an array
@@ -67,6 +78,37 @@ class Tree{
         return root;
     }
 
+    remove(value) {
+        this.root = this.removeNode(this.root, value);
+    }
+    
+    removeNode(root, value) {
+        //if the tree is empty 
+        if(root === null) return root;
+
+        if(value === root.data) {
+            if(root.left === null && root.right === null) {
+                return null;
+            } else if(root.left === null) {
+                return root.right;
+            } else if(root.right === null) {
+                return root.left;
+            } else {
+                let tempNode = this.smallestNode(root.right);
+                root.data = tempNode.data;
+
+                root.right = this.removeNode(root.right, tempNode.data);
+                return root;
+            }
+        } else if(value < root.data) {
+            root.left = this.removeNode(root.left, value);
+            return root;
+        } else {
+            root.rigt = this.removeNode(root.right, value);
+            return root;
+        }
+    }
+
     prettyPrint(node = this.root, prefix = "", isLeft = true) {
 
         if (node === null) {
@@ -92,4 +134,9 @@ let tree = new Tree([10, 20, 30, 40, 50]);
 tree.insert(45)
 tree.insert(25)
 tree.insert(5)
+tree.insert(60)
+tree.insert(55)
+tree.insert(65)
+tree.insert(58)
+tree.remove(50)
 tree.prettyPrint()
