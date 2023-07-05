@@ -137,6 +137,27 @@ class Tree{
 
     }
     
+    levelOrder(array = [], queue = [], root = this.root) {
+        //check if the tree is empty
+        //and push the first node reference in the queue
+        if(root === null) return root;
+        queue.push(root);
+
+        //loop over the queue and at each iteration
+        //push the current node in the array
+        //and check if that node has childrens
+        while(queue.length !== 0) {
+            let current = queue[0];
+            array.push(current.data);
+            
+            if(current.left !== null) queue.push(current.left);
+            if(current.right !== null) queue.push(current.right);
+            queue.shift();
+        }
+
+        return array;
+    }
+    
     prettyPrint(node = this.root, prefix = "", isLeft = true) {
 
         if (node === null) {
@@ -168,4 +189,5 @@ tree.insert(65)
 tree.insert(58)
 tree.remove()
 console.log(tree.find(20))
+console.log(tree.levelOrder())
 tree.prettyPrint()
