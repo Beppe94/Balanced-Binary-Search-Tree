@@ -83,16 +83,23 @@ class Tree{
     }
     
     removeNode(root, value) {
-        //if the tree is empty 
-        if(root === null) return root;
+        //check if the tree is empty
+        if(root === null) return null;
 
+        //check if value to remove is in the current node
+        //which means you found the node to delete
         if(value === root.data) {
+            //check if the current node has no child
+            //or either only left child or right child
             if(root.left === null && root.right === null) {
                 return null;
             } else if(root.left === null) {
                 return root.right;
             } else if(root.right === null) {
                 return root.left;
+              //if the node has two children, find the successor node
+              //smallest node in the right sub tree
+              //and then remove the successor node
             } else {
                 let tempNode = this.smallestNode(root.right);
                 root.data = tempNode.data;
@@ -100,6 +107,9 @@ class Tree{
                 root.right = this.removeNode(root.right, tempNode.data);
                 return root;
             }
+        //recursively traverse the left or right subtree 
+        //if the value is smaller or bigger than the node checked
+        //and then remove the node
         } else if(value < root.data) {
             root.left = this.removeNode(root.left, value);
             return root;
@@ -109,6 +119,24 @@ class Tree{
         }
     }
 
+    find(value, root = this.root) {
+        //check if tree is empty or the current node
+        //is equal to the value you're looking for
+        //then return the node
+        if(root === null || root.data === value) {
+            return root;
+        }
+
+        //recursively check left or right subtree
+        //if the value is smaller or bigger
+        if(value < root.data) {
+            return this.find(value, root.left);
+        } else {
+            return this.find(value, root.right);
+        }
+
+    }
+    
     prettyPrint(node = this.root, prefix = "", isLeft = true) {
 
         if (node === null) {
@@ -138,5 +166,6 @@ tree.insert(60)
 tree.insert(55)
 tree.insert(65)
 tree.insert(58)
-tree.remove(50)
+tree.remove()
+console.log(tree.find(20))
 tree.prettyPrint()
