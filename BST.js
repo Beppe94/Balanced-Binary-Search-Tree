@@ -82,9 +82,9 @@ class Tree{
         this.root = this.removeNode(this.root, value);
     }
     
-    removeNode(root, value) {
+    removeNode(root = this.root, value) {
         //check if the tree is empty
-        if(root === null) return null;
+        if(root === null) return root;
 
         //check if value to remove is in the current node
         //which means you found the node to delete
@@ -114,7 +114,7 @@ class Tree{
             root.left = this.removeNode(root.left, value);
             return root;
         } else {
-            root.rigt = this.removeNode(root.right, value);
+            root.right = this.removeNode(root.right, value);
             return root;
         }
     }
@@ -134,13 +134,12 @@ class Tree{
         } else {
             return this.find(value, root.right);
         }
-
     }
     
     levelOrder(array = [], queue = [], root = this.root) {
         //check if the tree is empty
         //and push the first node reference in the queue
-        if(root === null) return root;
+        if(root === null) return;
         queue.push(root);
 
         //loop over the queue and at each iteration
@@ -157,7 +156,43 @@ class Tree{
 
         return array;
     }
-    
+
+    /*
+    recursive version
+
+    recursiveLevelOrder(arr = [], queue = [], root = this.root) {
+        if(root === null) return;
+
+        arr.push(root.data);
+
+        queue.push(root.left);
+        queue.push(root.right);
+
+        while(queue.length != 0) {
+            let curr = queue[0];
+            queue.shift();
+            this.recursiveLevelOrder(arr, queue, curr);
+        }
+        return arr;
+    }
+    */
+
+    inorderTraversal(root = this.root, arr = []) {
+        //check if tree is empty 
+        if(root === null) return
+
+        //recursively traverse left sub tree
+        if(root.left) this.inorderTraversal(root.left, arr);
+
+        //visit the root
+        arr.push(root.data);
+
+        //traverse right subtree
+        if(root.right) this.inorderTraversal(root.right, arr);
+
+        return arr
+    }
+
     prettyPrint(node = this.root, prefix = "", isLeft = true) {
 
         if (node === null) {
@@ -190,4 +225,5 @@ tree.insert(58)
 tree.remove()
 console.log(tree.find(20))
 console.log(tree.levelOrder())
+console.log(tree.inorderTraversal());
 tree.prettyPrint()
