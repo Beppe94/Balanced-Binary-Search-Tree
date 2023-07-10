@@ -179,12 +179,12 @@ class Tree{
 
     inorderTraversal(root = this.root, arr = []) {
         //check if tree is empty 
-        if(root === null) return
+        if(root === null) return;
 
         //recursively traverse left sub tree
         if(root.left) this.inorderTraversal(root.left, arr);
 
-        //visit the root
+        //visit root node
         arr.push(root.data);
 
         //traverse right subtree
@@ -193,6 +193,38 @@ class Tree{
         return arr
     }
 
+    preorderTraversal(root = this.root, arr = []) {
+        //check if tree is empty
+        if(root === null) return;
+
+        //visit root node
+        arr.push(root.data);
+
+        //recursively traverse left subtree
+        if(root.left) this.preorderTraversal(root.left, arr);
+        
+        //recursively traverse right subtree
+        if(root.right) this.preorderTraversal(root.right, arr);
+
+        return arr;
+    }
+    
+    postorderTraversal(root = this.root, arr = []) {
+        //check if tree is empty
+        if(root === null) return
+        
+        //recursively traverse left subtree
+        if(root.left) this.postorderTraversal(root.left, arr);
+
+        //recursively traverse right subtree
+        if(root.right) this.postorderTraversal(root.right, arr);
+        
+        //visit root node
+        arr.push(root.data);
+
+        return arr
+    }
+    
     prettyPrint(node = this.root, prefix = "", isLeft = true) {
 
         if (node === null) {
@@ -226,4 +258,6 @@ tree.remove()
 console.log(tree.find(20))
 console.log(tree.levelOrder())
 console.log(tree.inorderTraversal());
+console.log(tree.preorderTraversal());
+console.log(tree.postorderTraversal());
 tree.prettyPrint()
