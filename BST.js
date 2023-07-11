@@ -190,7 +190,7 @@ class Tree{
         //traverse right subtree
         if(root.right) this.inorderTraversal(root.right, arr);
 
-        return arr
+        return 'Inorder Order: ' + arr;
     }
 
     preorderTraversal(root = this.root, arr = []) {
@@ -206,7 +206,7 @@ class Tree{
         //recursively traverse right subtree
         if(root.right) this.preorderTraversal(root.right, arr);
 
-        return arr;
+        return 'Preorder Order: ' + arr;
     }
     
     postorderTraversal(root = this.root, arr = []) {
@@ -222,7 +222,18 @@ class Tree{
         //visit root node
         arr.push(root.data);
 
-        return arr
+        return 'Postorder Order: ' + arr;
+    }
+    
+    findHeight(root = this.root) {
+        //check if the tree is empty
+        //if so the height of the tree is 0 
+        if(root === null) return 0;
+
+        const leftSubtree = this.findHeight(root.left);
+        const rightSubtree = this.findHeight(root.right);
+        
+        return Math.max(leftSubtree, rightSubtree) +1;
     }
     
     prettyPrint(node = this.root, prefix = "", isLeft = true) {
@@ -254,10 +265,12 @@ tree.insert(60)
 tree.insert(55)
 tree.insert(65)
 tree.insert(58)
+tree.insert(59)
 tree.remove()
 console.log(tree.find(20))
 console.log(tree.levelOrder())
 console.log(tree.inorderTraversal());
 console.log(tree.preorderTraversal());
 console.log(tree.postorderTraversal());
+console.log(tree.findHeight())
 tree.prettyPrint()
