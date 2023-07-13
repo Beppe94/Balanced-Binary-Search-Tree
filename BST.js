@@ -229,11 +229,27 @@ class Tree{
         //check if the tree is empty
         //if so the height of the tree is 0 
         if(root === null) return 0;
-
+        
+        //recursively check the height of the subtrees and store it
         const leftSubtree = this.findHeight(root.left);
         const rightSubtree = this.findHeight(root.right);
         
+        //return the max height between the two subtrees
+        //and add +1 to account for the current node
         return Math.max(leftSubtree, rightSubtree) +1;
+    }
+
+    findDepth(value, root = this.root, depth = 0) {
+        if(root === null) return;
+
+        
+        if(root.data === value) return `Value is ${depth} depths away from the root.`;
+        if(value < root.data) {
+            return this.findDepth(value, root.left, depth +=1);
+        } else {
+            return this.findDepth(value, root.right, depth += 1);
+        }
+
     }
     
     prettyPrint(node = this.root, prefix = "", isLeft = true) {
@@ -273,4 +289,5 @@ console.log(tree.inorderTraversal());
 console.log(tree.preorderTraversal());
 console.log(tree.postorderTraversal());
 console.log(tree.findHeight())
+console.log(tree.findDepth(60));
 tree.prettyPrint()
