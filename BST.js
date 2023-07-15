@@ -240,16 +240,45 @@ class Tree{
     }
 
     findDepth(value, root = this.root, depth = 0) {
-        if(root === null) return;
+        //check if the tree is empty 
+        //or the given value is null
+        if(root === null || value === null) return;
 
-        
+        //check if the current node is equal to the given value
+        //and return its depth
         if(root.data === value) return `Value is ${depth} depths away from the root.`;
+        
+        //else recursively check left and right subtree
         if(value < root.data) {
             return this.findDepth(value, root.left, depth +=1);
         } else {
             return this.findDepth(value, root.right, depth += 1);
-        }
+        }     
+    }
 
+    isBalanced(root = this.root) {
+        //check if the tree is empty
+        if(root === null) return;
+
+        //call the findHeight function to check 
+        //left and right subtrees height
+        const left = this.findHeight(root.left);
+        const right = this.findHeight(root.right);
+
+        let difference = Math.abs(left - right);
+        
+        return difference < 2 ? 'The tree is balanced' : 'The tree is not balanced';
+    }
+
+    rebalance(root = this.root) {
+        //traverse the tree and create a new array with the same elements
+        const arr = this.levelOrder([], [], root)
+
+        //sort the new array
+        const newArr = this.sortAndRemove(arr)
+        
+        //update root reference
+        return this.root = this.buildTree(newArr)
     }
     
     prettyPrint(node = this.root, prefix = "", isLeft = true) {
@@ -289,5 +318,8 @@ console.log(tree.inorderTraversal());
 console.log(tree.preorderTraversal());
 console.log(tree.postorderTraversal());
 console.log(tree.findHeight())
-console.log(tree.findDepth(60));
+console.log(tree.findDepth(40));
+console.log(tree.isBalanced());
+console.log(tree.rebalance())
+
 tree.prettyPrint()
